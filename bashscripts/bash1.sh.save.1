@@ -1,0 +1,26 @@
+#!/bin/bash
+echo "what do u want to do :" 
+read -p  "press 1 for addition /n 2 for sub /n 3 for mul /n 4 for div: " option
+read -p "enter two numbers" f s
+
+case $option in 
+	1)
+	 ((res=f+s))
+	echo  "Answer=$res"
+	;;
+	2)
+	((res=f-s))
+        echo "ANSWER=$res"
+	;;
+	3)
+	((res=f*s))
+        echo "ANSWER=$res"
+        ;;
+	4)
+	((res=f/s))
+        echo "ANSWER: $res"
+        ;;
+esac
+
+
+

@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  tasks: 
+    - name: install nginx on linux
+      apt: 
+        name: nginx  
+        state: latest
+      

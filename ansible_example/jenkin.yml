@@ -1,0 +1,40 @@
+---
+- hosts: localhost
+  tasks:
+    - name: install openjdk
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    - name: installing jenkins apt repository key
+      apt_key: 
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key 
+        state: present
+      become: yes
+
+    - name: configuring repository
+      apt_repository: 
+        repo: 'deb https://pkg.jenkins.io/debian-stable binary/' 
+        state: present
+      become: yes
+
+    - name: installing jenkins
+      apt: 
+        name: jenkins
+        update_cache: yes
+        #state: latest
+      become: yes
+
+    - name: starting jenkin service 
+      service: 
+        name: jenkins 
+        state: started
+
+#    - name: init password jenkin
+#      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+#      changed_when: false
+#      register: result
+
+#    - name: print init password jenkins
+#      debug:
+#        var: result.stdout

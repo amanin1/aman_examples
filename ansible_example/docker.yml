@@ -1,0 +1,41 @@
+---
+- hosts: localhost
+  tasks: 
+    - name: install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: install neccesary system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+
+    - name: Adding docker gpg key for download verifying purpose
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: installing docker-ce
+      apt:
+        name: docker
+        state: present
+        update_cache: true
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker

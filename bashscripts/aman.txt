@@ -1,0 +1,12 @@
+email = bittujii05@gmail.com
+pass = aman@0508
+username = amanin1
+Github_token = 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
+
+
+git clone https://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@github.com/amanin1/bashscripts
+
+git config --global user.email "mailto:bittujii05@gmail.com"
+git config --global user.name "amanin1"
+
+
