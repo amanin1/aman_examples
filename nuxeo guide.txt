@@ -1,0 +1,400 @@
+###########   all credentials ######################
+
+
+Image link hosting :-   
+https://console-ops.nuxeocloud.com/customers
+https://console-ops.beta.nuxeocloud.com/customers
+			
+okta - useraname for linux - drathore
+other-             StackHolder1@
+okta-              StackHolder@456
+Pagerduty - des1LAoOB7Rdz0NJ || email-dipesh.rathore@contractors.onbase.com
+--------------------------------------------------------------------------------------------------
+Pratik Sir:
+##### windows #####
+SLiad+SQ7GE3
+PratikSharma
+Bloodwarith25@!$#
+
+#### Linux ####
+wsdub+T8NU2D
+psharma
+Gracegummer56@$#!
+
+################# deployment comment on ticket #####################
+
+We have understood your request to deploy the package 3.5.2 on preprod environment we will deploy ASAP and will update you
+
+resatart nuxeo services: sudo service nuxeo restart
+
+######### NCO TICKET CREATE##############
+
+Click on ctrl+Create:-
+Project: [nuxeo cloud operation]
+Issue: [Deployment]
+Cloud Customer: [Name of customer]
+Cloud environment: [Prod/Preprod/Preprod2]
+Tag: [nco-update-stake]
+summary: [customer/environment deploy package,   EX- tbwa/prod deploy 3.0.2 package]
+Description: [Copy the description from SUPNXP's description]
+Shedule Time: [shedule time given on SUPNXP]
+Priority: [see on SUPNXP ticket, EX- critical/major/minor]
+Assignee: [assign to me]
+Issue: [Url of SUPNXP, EX- SUPNX-41352]
+--------------------------------------------------------------------------------------------------------
+
+
+######## CREATE IMAGE OF CUSTOMER ##########
+
+SEARCH CONSOLE sso:-
+
+-Click on customer name 
+-Click on project
+-Click on build
+then we see last deployment
+-Open duplicate tab of that 
+-click on edit project
+-change package of the image 
+-match old image build configuration with new configuration [alll conf. should be same except the change]
+-click on save 
+-click on build project 
+--------------------------------------------------------------------------------------------------------
+
+
+############ DEPLOYMENT OF THE IMAGE ##########
+
+Open built image
+-click on deploy to environment
+-select env: [Prod/preprod]
+-Time: [given on NCO ticket]
+-NCO-number: [NCO_ticket number, EX- NCO-14253]
+-Comment: [NCO_ticket_number: deploy version customer_name/environment]
+          [EX:-  NCO-14253: deploy 3.0.1 nbme/prod]
+-click on proceed
+-------------------------------------------------------------------------------------------------------
+
+
+############### VALIDATE THE JOB ################
+
+
+-Open AWS
+-click on EC2 instance
+-click on running instance
+-Search region of customer(github)
+-Search customer-environment EX- lululemon-prod  
+-Select bastion and copy the public IP
+-Go on putty then select ncp agent and click on load , then paste public IP and click on open.
+-Run command to check user data:                   sudo tail -f /var/log/cloud-init-output.log
+-Come on AWS again , select app and copy private IP
+-Come on putty then type (ssh private-IP)+enter.
+-To check the package run that command:            sudo docker exec -it nuxeo nuxeoctl mp-list
+---------------------------------------------------------------------------------------------------------
+
+############## Shedule the deployment on calender ##############
+
+
+-open worksapce , go to calender
+-click on date, title is open 
+-Go on more option
+-Give the name of title {EX- Saig/prod /preprod deploy 3.4.3}
+-Give the link of SUPNXP in description
+-Give the link of NCO in description
+-Give the link of Image in description
+-Give the link of Action create link in description
+-click on save 
+--------------------------------------------------------------------------------------------------------
+
+############## LAUNCH CUSTOIMER STACK #################
+
+-go on jenkins 
+-Open NCO-launch-customer-stack
+-Click on build parameter
+-      :  [Select ticket]
+-Filter: [NCO-version , EX- v8.2.0]{check NCO-version of customer given on github}
+-Customer: [Customer name]
+-Customer_ ENV: [Customer environment]
+-Region: [check customer region on github]
+-kms      :  [kms32]
+-click on build 
+-------------------------------------------------------------------------------------------------------
+
+############### HOW TO MAKE PR ################
+
+-Create branch: [EX- NCO-14352-deploy-3.2.5-nxdev-preprod]
+-Open terminal and run command :                               1. git checkout master
+								 2. git pull
+								 3. git checkout (created branch)
+-open sublime , edit the file and save 
+-open terminal and run command :                               4. git status 
+								 5. git add .
+								 6. git commit -m 'NCO-13245: deploy 3.2.5 nxdev/preprod'
+								 7. git push origin
+-go to github , create pull request
+-click on compare and pull
+-------------------------------------------------------------------------------------------------------
+
+######### WHAT TO DO WHEN stream counter failure ##############
+
+(for acheiving that do, restart the service)
+
+-Go on pager duty
+-Click on stream counter failure, new tab is open of data dog
+-Check node failure
+-For restating the failure service:
+-Go on AWS, click on EC2,click running instance
+-Choose region of customer 
+-Search customer-environment EX- lululemon-prod  
+-Select bastion and copy the public IP
+-Go on putty then select ncp agent and click on load , then paste public IP and click on open.
+-Come on AWS again , select app and copy private IP
+-Come on putty then type (ssh private-IP)+enter.
+-Run command: sudo service nuxeo restart
+--------------------------------------------------------------------------------------------------------
+
+################## Open credential of customer #################
+                   (Customers secret details )
+
+-Go on AWS
+-Click on secret manager
+-select region of the customer 
+-Click on customer/environment/nuxeo
+-Click on retrieve secret value
+--------------------------------------------------------------------------------------------------------
+
+#################  terraform state file    ##################
+
+open AWS
+open s3  open bucket
+NCO- env-platform 
+go on customer
+
+################ P99 ALB gateway response is high for the site ##################
+
+open datadog production 
+go on JVM heap Used
+check heap max
+go on putty 
+restart the service
+
+
+########## check log of the customers #############
+
+open datadog production 
+go on log 
+go on search
+click on source and select nuxeo
+click on service and search customers and env
+click on status
+select the option
+set the time 
+then click export 
+
+
+########### alert overide to the another person ##################
+
+Open pager Duty
+click on people 
+Change the Week into a day
+Click on Today Set Time 
+click on Name Override to the another person
+
+################ Clear queue in Pre Prod ####################
+
+Open datadog Production
+Open Alert String
+In Project Select Customer
+In Staging select enviroment
+Check Common 
+Open gitty
+enter baston ip
+ssh worker ip
+For List the Stream Run Command
+sudo docker exec -it nuxeo /opt/nuxeo/server/bin/stream.sh lag -k
+Run Command sudo docker exec -it nuxeo nuxeoctl stop
+sudo docker exec -it nuxeo /opt/nuxeo/server/bin/stream.sh position -k -l common -g common --to-end
+
+
+############## RDS Client Code  ##################
+
+Open AWS Click on Running Instance 
+Enter Customer and it's Enviroment
+Paste Basiton IP
+open gitty Paste Basiton IP
+Open App ip And Paste it 
+Run cd /tmp/
+Cat cmk_rde_client.txt
+vi cmk_rde_client.txt
+Run Curl command
+run command: sudo docker logs nuxeo nuxeo --follow | grep client 
+
+
+################## Store New Secrets #######################
+
+Open Secrets Manager
+Click on Store new Secrets
+Click on Other type of secret
+Enter key and its value 
+click on next
+Enter name by which you Want the Secrets
+Click on next
+Store the Value
+
+_++++++++++++++++   How to Validate new Secrets Which You Store #########################
+
+copy bastion ip and paste it in terminal or gitty  
+cd /apps/nuxeo
+cd ls
+cd /conf
+cd /conf.d
+cd /30-custum.......
+cat 
+
+#################### DELETE old releases ###############
+
+open jenkins
+open nco-update customer-stake
+click on build with parameter
+check stake number
+
+Now open AWS
+click S3
+open S3 bucket
+Search nco-nxio-platform
+click on tfstate
+click on customer
+search older release which is shown on jenkins with stake
+click on customer
+click on region
+click on env
+select env and delete
+write delete and confirm it
+
+
+################ Create env bucket if not found on jenkins ###############
+
+Now open AWS
+open S3
+open S3 bucket
+Search nco-nxio-platform
+click on tfstate
+click on customer
+Search the latest release
+click on latest version
+Click on customer
+Click on region
+click on show version
+click on any folder and downlord the tf.var and tfstate 
+now come again on regin and inside region Click on Create Folder with name of env
+now go on env which you created 
+again Create folder with customername-stake (nxdev-3456) 
+click on customername-stake 
+paste tf.var and tfstate  file inside customername-stake folder
+
+
+################### If bastion node is deleted/ how to add bastion node if old is deleted ###########################
+
+You have to run "update-stake job" (This job brings new bastion nodes).
+Old app and worker node will create a problem because this will create a latency problem.
+If there is only one app and worker we scale up the nodes first and terminate the old nodes.
+Otherwise if there are more than 1 node , terminate the old nodes but remember there must be a app and worker node.
+
+############### add some code to log4j2.xml ####################
+
+enter bastion public and ssh app private ,, run below command:- 
+sudo docker exec -it nuxeo vi /opt/nuxeo/server/lib/log4j2.xml   
+copy code from ticket and paste below the end of nuxeo logger paragraph.
+
+############## how_to_delete_secrets  #################
+
+This can be done only on linux workspace:
+First ssh to node
+aws secretsmanager delete-secret --secret-id ncouat/qa/datadog --force-delete-without-recovery --region eu-west-2
+
+########### how_to_check_secrets_are_present (uncomplete) #########################
+{stage-1}
+open terminal
+vi .bashrc
+source .bashrc 
+okta-aws logout
+okta-aws login
+Enter User_name and password
+Then enter 6 if nxio-account is login 
+cmd:- aws s3 ls
+
+{stage-2}  -------------   (how_to_check_secrets_are_present)
+
+Go to aws --> secret manager --> customer/env --> fill other details if it ask to fill
+check below files are present or not :   1.lambda  2.mongodb endpoint  3.Mongodb cluster auth
+
+################# ################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
