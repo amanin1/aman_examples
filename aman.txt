@@ -1,0 +1,17 @@
+#git n github 
+
+email = bittujii05@gmail.com
+pass = aman@0508
+username = amanin1
+Github_token = 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
+
+
+git clone https://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@github.com/amanin1/bashscripts
+
+git config --global user.email "mailto:bittujii05@gmail.com"
+git config --global user.name "amanin1"
+
+----------------------------------------------------------------------------------------------------------------------------
+
+pnac: aman.kumar@nenosystems.in
+      pass1234
